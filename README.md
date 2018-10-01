@@ -1,2 +1,2 @@
 # GifTastic
-A page for displaying all the cartoon tv show gifs you could ever want!
+A page for displaying all the holiday gifs you could ever want!

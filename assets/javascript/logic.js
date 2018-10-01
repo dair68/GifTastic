@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var topics = ["Simpsons", "Avatar the Last Airbender", "SpongeBob", "Rick and Morty", "Adventure Time"];
+    var topics = ["Santa", "Elf", "Snowman", "Present", "Reindeer"];
 
     //turning everything in topics array into buttons
     function makeButtons() {
@@ -19,8 +19,10 @@ $(document).ready(function () {
     $("#submit").on("click", function (event) {
         event.preventDefault();
         var submission = $("#gifInput").val();
-
+        
         if (!topics.includes(submission)) {
+            //clearing input line
+            $("#gifInput").val("");
             topics.push(submission);
         }
 
@@ -45,6 +47,9 @@ $(document).ready(function () {
 
             var gifs = response.data;
             console.log(gifs);
+            $("#gifs").empty();
+
+            //adding gifs to the page
             for(var i=0; i<gifs.length; i++) {
                 //obtaining data for gif
                 var gif = gifs[i];
