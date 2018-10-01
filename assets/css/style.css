@@ -12,6 +12,7 @@ header {
 
 #instructions {
 	text-align: center;
+	color: white;
 	/* font-family: 'Signika Negative', sans-serif; */
 }
 
@@ -64,7 +65,14 @@ h1 {
 	background: white;
 }
 
-.gif {
+figure {
 	display: inline-block;
+	margin: 3px;
 	/* float: left; */
+}
+
+.gif {
+	width: auto;
+	height: auto;
+	/* max-width: 250px; */
 }

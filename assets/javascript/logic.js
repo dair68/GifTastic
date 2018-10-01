@@ -20,7 +20,7 @@ $(document).ready(function () {
         event.preventDefault();
         var submission = $("#gifInput").val();
         
-        if (!topics.includes(submission)) {
+        if (!topics.includes(submission) && submission !== "") {
             //clearing input line
             $("#gifInput").val("");
             topics.push(submission);
