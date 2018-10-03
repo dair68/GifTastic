@@ -60,6 +60,15 @@ h1 {
 	/* font-family: 'Signika Negative', sans-serif; */
 }
 
+#remove-instructions {
+	display: none;
+}
+
+#remove {
+	background: blue;
+	font-family: 'Acme', sans-serif;
+}
+
 .gif-button {
 	margin: 3px;
 	font-family: 'Signika Negative', sans-serif;

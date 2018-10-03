@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     var topics = ["Santa", "Elf", "Snowman", "Present", "Christmas Tree"];
+    var buttonRemoveMode = false;
 
     //turning everything in topics array into buttons
     function makeButtons() {
@@ -10,6 +11,7 @@ $(document).ready(function () {
             var button = $("<button>");
             button.text(topics[i]);
             button.addClass("gif-button");
+            button.attr("data-removal","keep");
 
             $("#buttons").append(button);
         }
@@ -19,7 +21,7 @@ $(document).ready(function () {
     $("#submit").on("click", function (event) {
         event.preventDefault();
         var submission = $("#gifInput").val();
-        
+
         if (!topics.includes(submission) && submission !== "") {
             //clearing input line
             $("#gifInput").val("");
@@ -29,52 +31,109 @@ $(document).ready(function () {
         makeButtons();
     });
 
-    //produces gifs of button clicked
-    $(document).on("click",".gif-button", createGifs);
+    //removes yellow gif buttons from interface
+    $("#remove").on("click", function (event) {
+        event.preventDefault();
+        
+        //user not already in button remove mode
+        if (!buttonRemoveMode) {
+            //entering button remove mode. buttons can be selected to be deleted
+            buttonRemoveMode = true;
+            $("#remove-instructions").show();
+            $(this).text("Remove Items");
+            $(this).attr("style","background: black");
+        }
+        //user in button removal mode
+        else {
+            buttonRemoveMode = false;
+            $("#remove-instructions").hide();
+            $(this).text("Remove");
+            $(this).attr("style", "background: blue");
 
-    function createGifs() {
-        console.log("clicked");
+            //removing the selected yellow buttons
+            $(".gif-button").each(function() {
+                var removalState = $(this).attr("data-removal");
+                if(removalState === "remove") {
+                    var category = $(this).text();
 
-        var key = "JLcx2TVC0f6bn9GMyN2u2uLvbY6RZNmf";
-        var search = $(this).text();
-        var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + key + "&limit=10"; 
+                    //removing one of the starting buttons
+                    if(topics.includes(category)) {
+                        topics.splice(topics.indexOf(category), 1);
+                    }
+                    $(this).remove();
+                }
+            });
 
-        $.ajax({
-            url: queryUrl, 
-            method:"GET"
-        }).done(function(response) {
-            //console.log(response);
-
-            var gifs = response.data;
-            console.log(gifs);
+            //removing already present
             $("#gifs").empty();
+        }
+    });
 
-            //adding gifs to the page
-            for(var i=0; i<gifs.length; i++) {
-                //obtaining data for gif
-                var gif = gifs[i];
-                var rating = gif.rating;
-                var stillURL = gif.images.fixed_height_still.url;
-                var animatedURL = gif.images.fixed_height.url;
+    //handles click event of yellow buttons
+    $(document).on("click", ".gif-button", gifHandler);
 
-                //creating gif
-                var img = $("<img />");
-                img.attr("src", stillURL);
-                img.attr("data-still", stillURL);
-                img.attr("data-animated", animatedURL);
-                img.attr("alt", search + " gif");
-                img.attr("data-status", "still");
-                img.addClass("gif");
+    //creates gifs if not in removal mode, toggles between removal/not removal otherwise.
+    function gifHandler() {
+        //remove button not clicked earlier
+        if (!buttonRemoveMode) {
+            console.log("clicked");
 
-                var caption = $("<figcaption>");
-                caption.text("rated " + rating);
+            var key = "JLcx2TVC0f6bn9GMyN2u2uLvbY6RZNmf";
+            var search = $(this).text();
+            var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + key + "&limit=10";
 
-                var container = $("<figure>");
-                container.append(caption);
-                container.append(img);
-                $("#gifs").prepend(container);
+            $.ajax({
+                url: queryUrl,
+                method: "GET"
+            }).done(function (response) {
+                //console.log(response);
+
+                var gifs = response.data;
+                console.log(gifs);
+                $("#gifs").empty();
+
+                //adding gifs to the page
+                for (var i = 0; i < gifs.length; i++) {
+                    //obtaining data for gif
+                    var gif = gifs[i];
+                    var rating = gif.rating;
+                    var stillURL = gif.images.fixed_height_still.url;
+                    var animatedURL = gif.images.fixed_height.url;
+
+                    //creating gif
+                    var img = $("<img />");
+                    img.attr("src", stillURL);
+                    img.attr("data-still", stillURL);
+                    img.attr("data-animated", animatedURL);
+                    img.attr("data-status", "still");
+                    img.addClass("gif");
+
+                    var caption = $("<figcaption>");
+                    caption.text("rated " + rating);
+
+                    var container = $("<figure>");
+                    container.append(caption);
+                    container.append(img);
+                    $("#gifs").prepend(container);
+                }
+            });
+        }
+        //button removal mode
+        else {
+            //toggling between keep/remove state
+            var removeState = $(this).attr("data-removal");
+
+            //from keep to remove state
+            if (removeState === "keep") {
+                $(this).attr("data-removal","remove");
+                $(this).attr("style","background: black");
             }
-        });
+            //from remove to keep state
+            else {
+                $(this).attr("data-removal","keep");
+                $(this).attr("style","background: goldenrod");
+            }
+        }
     }
 
     //toggling between still/animated gifs
@@ -82,7 +141,7 @@ $(document).ready(function () {
 
     function changeGifState() {
         //animating gif
-        if($(this).attr("data-status") === "still") {
+        if ($(this).attr("data-status") === "still") {
             $(this).attr("data-status", "animated");
             var animatedURL = $(this).attr("data-animated");
             $(this).attr("src", animatedURL);
@@ -100,7 +159,7 @@ $(document).ready(function () {
 
     function gifPreview() {
         //animating gif
-        if($(this).attr("data-status") === "still") {
+        if ($(this).attr("data-status") === "still") {
             // $(this).attr("data-status", "animated");
             var animatedURL = $(this).attr("data-animated");
             $(this).attr("src", animatedURL);
@@ -112,7 +171,7 @@ $(document).ready(function () {
 
     function endPreview() {
         //stopping gif animation
-        if($(this).attr("data-status") === "still") {
+        if ($(this).attr("data-status") === "still") {
             // $(this).attr("data-status", "still");
             var stillURL = $(this).attr("data-still");
             $(this).attr("src", stillURL);
