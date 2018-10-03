@@ -1,25 +1,62 @@
-body {
+html,body {
 	/* background: lightgreen; */
+	height: 100%;
 	background: #0a8525;
+	/* font-family: 'Acme', sans-serif; */
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+  }
+
+.content {
+	flex: 1 0 auto;
+}
+
+.present, h1 {
+	display: inline-block;
 }
 
 header {
+	/* display: inline-block; */
+	/* float: left; */
 	background: #cc0004;
+	text-align: center;
 	/* background: lightcoral; */
 	color: white;
-	padding: .5em;
+	padding: 1em;
+}
+
+h1 {
+	text-align: center;
+	font-family: 'Acme', sans-serif;
+	/* font-family: 'Signika Negative', sans-serif; */
+	/* font-family: 'Lobster', cursive; */
+	/* font-family: 'Varela Round', sans-serif; */
+}
+
+.present {
+	width: auto;
+	height: auto;
+	max-height: 55px;
+	margin-bottom: 15px;
+}
+
+/* present for larger screens */
+#present1 {
+	max-height: 55px;
+}
+
+/* for when viewport becomes small */
+#present2 {
+	display: none;
+	max-height: 70px;
 }
 
 #instructions {
 	text-align: center;
 	color: white;
-	/* font-family: 'Signika Negative', sans-serif; */
-}
-
-
-h1 {
-	text-align: center;
-	font-family: 'Acme', sans-serif;
 	/* font-family: 'Signika Negative', sans-serif; */
 }
 
@@ -75,4 +112,48 @@ figure {
 	width: auto;
 	height: auto;
 	/* max-width: 250px; */
+}
+
+#submit {
+	background: red;
+	color: white;
+	font-family: 'Acme', sans-serif;
+	font-weight: bold;
+	border-color: lightgray;
+}
+
+#submit:hover {
+	background: #cc0004;
+}
+
+footer {
+	flex-shrink: 0;
+	background: #cc0004;
+	color: white;
+	text-align: center;
+	padding: .25em;
+	font-size: 1.2em;
+}
+
+#footer-link {
+	color: white;
+}
+
+.wreath {
+	width: auto;
+	height: auto;
+	max-height: 1.5em;
+}
+
+@media screen and (max-width: 493px) {
+	.gif {
+		max-width: 285px;
+	}
+
+	#present1 {
+		display: none;
+	}
+	#present2 {
+		display: initial;
+	}
 }

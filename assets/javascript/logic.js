@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var topics = ["Santa", "Elf", "Snowman", "Present", "Reindeer"];
+    var topics = ["Santa", "Elf", "Snowman", "Present", "Christmas Tree"];
 
     //turning everything in topics array into buttons
     function makeButtons() {
@@ -67,7 +67,7 @@ $(document).ready(function () {
                 img.addClass("gif");
 
                 var caption = $("<figcaption>");
-                caption.text("rating: " + rating);
+                caption.text("rated " + rating);
 
                 var container = $("<figure>");
                 container.append(caption);
@@ -90,6 +90,30 @@ $(document).ready(function () {
         //making gif still
         else {
             $(this).attr("data-status", "still");
+            var stillURL = $(this).attr("data-still");
+            $(this).attr("src", stillURL);
+        }
+    }
+
+    //hovering mouse over gif will animate it
+    $(document).on("mouseover", ".gif", gifPreview);
+
+    function gifPreview() {
+        //animating gif
+        if($(this).attr("data-status") === "still") {
+            // $(this).attr("data-status", "animated");
+            var animatedURL = $(this).attr("data-animated");
+            $(this).attr("src", animatedURL);
+        }
+    }
+
+    //taking mouse off gif without clicking will set back to static
+    $(document).on("mouseleave", ".gif", endPreview);
+
+    function endPreview() {
+        //stopping gif animation
+        if($(this).attr("data-status") === "still") {
+            // $(this).attr("data-status", "still");
             var stillURL = $(this).attr("data-still");
             $(this).attr("src", stillURL);
         }
