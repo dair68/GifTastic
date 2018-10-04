@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var topics = ["Santa", "Elf", "Snowman", "Present", "Christmas Tree"];
     var buttonRemoveMode = false;
+    var animateAll = false;
+    var favoriteMode = false;
 
     //turning everything in topics array into buttons
     function makeButtons() {
@@ -11,7 +13,7 @@ $(document).ready(function () {
             var button = $("<button>");
             button.text(topics[i]);
             button.addClass("gif-button");
-            button.attr("data-removal","keep");
+            button.attr("data-removal", "keep");
 
             $("#buttons").append(button);
         }
@@ -34,14 +36,14 @@ $(document).ready(function () {
     //removes yellow gif buttons from interface
     $("#remove").on("click", function (event) {
         event.preventDefault();
-        
+
         //user not already in button remove mode
         if (!buttonRemoveMode) {
             //entering button remove mode. buttons can be selected to be deleted
             buttonRemoveMode = true;
             $("#remove-instructions").show();
             $(this).text("Remove Items");
-            $(this).attr("style","background: black");
+            $(this).attr("style", "background: black");
         }
         //user in button removal mode
         else {
@@ -51,13 +53,13 @@ $(document).ready(function () {
             $(this).attr("style", "background: blue");
 
             //removing the selected yellow buttons
-            $(".gif-button").each(function() {
+            $(".gif-button").each(function () {
                 var removalState = $(this).attr("data-removal");
-                if(removalState === "remove") {
+                if (removalState === "remove") {
                     var category = $(this).text();
 
                     //removing one of the starting buttons
-                    if(topics.includes(category)) {
+                    if (topics.includes(category)) {
                         topics.splice(topics.indexOf(category), 1);
                     }
                     $(this).remove();
@@ -70,11 +72,11 @@ $(document).ready(function () {
     });
 
     //handles click event of yellow buttons
-    $(document).on("click", ".gif-button", gifHandler);
+    $(document).on("click", ".gif-button", gifButtonHandler);
 
-    //creates gifs if not in removal mode, toggles between removal/not removal otherwise.
-    function gifHandler() {
-        //remove button not clicked earlier
+    //creates gifs if not in removal mode. removes gifbutton in removal mode
+    function gifButtonHandler() {
+        //remove button not clicked earlier. creating gifs
         if (!buttonRemoveMode) {
             console.log("clicked");
 
@@ -111,10 +113,24 @@ $(document).ready(function () {
                     var caption = $("<figcaption>");
                     caption.text("rated " + rating);
 
+                    var favorite = $("<button>");
+                    favorite.text("Favorite");
+                    favorite.addClass("favorite btn");
+                    favorite.attr("data-gif",stillURL);
+                    favorite.attr("data-animated", animatedURL);
+                    favorite.attr("data-rating", rating);
+                    favorite.attr("data-favorite","unfavorited");
+
+                    var favoriteContain = $("<div>");
+                    favoriteContain.addClass("fav-container");
+                    favoriteContain.append(favorite);
+
                     var container = $("<figure>");
                     container.append(caption);
                     container.append(img);
-                    $("#gifs").prepend(container);
+                    container.append("<br>");
+                    container.append(favoriteContain);
+                    $("#gifs").append(container);
                 }
             });
         }
@@ -125,13 +141,13 @@ $(document).ready(function () {
 
             //from keep to remove state
             if (removeState === "keep") {
-                $(this).attr("data-removal","remove");
-                $(this).attr("style","background: black");
+                $(this).attr("data-removal", "remove");
+                $(this).attr("style", "background: black");
             }
             //from remove to keep state
             else {
-                $(this).attr("data-removal","keep");
-                $(this).attr("style","background: goldenrod");
+                $(this).attr("data-removal", "keep");
+                $(this).attr("style", "background: goldenrod");
             }
         }
     }
@@ -177,6 +193,103 @@ $(document).ready(function () {
             $(this).attr("src", stillURL);
         }
     }
+
+    //animates/stops animating all the gifs at once
+    $("#animate").on("click", function () {
+        //animating all the gifs
+        if (animateAll === false) {
+            $(this).attr("style", "background: black");
+            animateAll = true;
+            $("#gifs .gif").each(function () {
+                if ($(this).attr("data-status") === "still") {
+                    $(this).attr("data-status", "animated");
+                    var animatedURL = $(this).attr("data-animated");
+                    $(this).attr("src", animatedURL);
+                }
+            });
+        }
+        //stopping all gif animations
+        else {
+            $(this).attr("style", "background: green");
+            animateAll = false;
+            $(".gif").each(function () {
+                $(this).attr("data-status", "still");
+                var stillURL = $(this).attr("data-still");
+                $(this).attr("src", stillURL);
+            });
+        }
+    });
+
+    //lets user favorite a gif and add to favorites section
+    $(document).on("click", ".favorite", addFavorite);
+
+    function addFavorite() {
+        console.log("favorite clicked");
+
+        var favoriteStatus = $(this).attr("data-favorite");
+
+        //adding gif to favorites
+        if(favoriteStatus === "unfavorited") {
+            //changing button color
+            $(this).attr("data-favorite","favorited");
+            $(this).attr("style", "background: goldenrod");
+
+            var stillURL = $(this).attr("data-gif");
+            var animatedURL = $(this).attr("data-animated");
+            var rating = $(this).attr("data-rating");
+
+             //creating gif
+             var img = $("<img />");
+             img.attr("src", stillURL);
+             img.attr("data-still", stillURL);
+             img.attr("data-animated", animatedURL);
+             img.attr("data-status", "still");
+             img.addClass("gif");
+
+             var caption = $("<figcaption>");
+             caption.text("rated " + rating);
+
+             var favorite = $("<button>");
+             favorite.text("Favorite");
+             favorite.addClass("favorite btn");
+             favorite.attr("data-gif",stillURL);
+             favorite.attr("data-favorite","unfavorited");
+
+             var container = $("<figure>");
+             container.attr("data-gif",stillURL);
+             container.append(caption);
+             container.append(img);
+             container.append("<br>");
+            //  container.append(favoriteContain);
+             $("#fav-gifs").append(container);
+        }
+        //removing gif from favorites
+        else {
+            console.log("removing");
+
+            $(this).attr("data-favorite","unfavorited");
+            $(this).attr("style", "background: black");
+            var stillURL = $(this).attr("data-gif");
+
+            //searching for appropriate gif to remove
+            $("#fav-gifs figure").each(function() {
+                var gif = $(this).attr("data-gif");
+                console.log(gif);
+                console.log(stillURL);
+                if(gif === stillURL) {
+                    console.log("match found");
+                    $(this).remove();
+                }
+            });
+        }
+    };
+
+    //
+    // $(".gif").on("click", function() {
+    //     if(favoriteMode) {
+    //         $(this).attr("style","border: thin solid gold");
+    //     }
+    // });
 
     makeButtons();
 });

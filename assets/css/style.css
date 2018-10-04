@@ -106,12 +106,25 @@ h1 {
 	margin-bottom: 10px;
 }
 
-#gifs {
+
+
+#gifs-area, #favorites {
 	width: 80%;
 	margin: auto;
 	padding: 7px;
 	/* display: inline-flex-block; */
 	background: white;
+}
+
+#gifs-header {
+	 font-family: 'Acme', sans-serif;
+	
+	/* font-style: italic; */
+}
+
+#animate {
+	border-color: grey;
+	background: darkgreen;
 }
 
 figure {
@@ -130,6 +143,17 @@ figcaption {
 	width: auto;
 	height: auto;
 	/* max-width: 250px; */
+}
+
+.fav-container {
+	text-align: center;
+	margin-top: 6px;
+}
+
+.favorite {
+	background: black;
+	color: white;
+	border-color: lightgray;
 }
 
 #submit {
