@@ -26,6 +26,8 @@ header {
 	/* background: lightcoral; */
 	color: white;
 	padding: 1em;
+	/* border-color: white; */
+	border: thick ridge white;
 }
 
 h1 {
@@ -107,14 +109,21 @@ h1 {
 #gifs {
 	width: 80%;
 	margin: auto;
+	padding: 7px;
 	/* display: inline-flex-block; */
 	background: white;
 }
 
 figure {
 	display: inline-block;
-	margin: 3px;
+	margin: 4px;
 	/* float: left; */
+}
+
+figcaption {
+	/* font-family: 'Acme', sans-serif;  */
+	/* font-weight: bold; */
+	font-style: italic;
 }
 
 .gif {
@@ -145,6 +154,7 @@ footer {
 }
 
 #footer-link {
+	/* color: lightgoldenrodyellow; */
 	color: white;
 }
 
