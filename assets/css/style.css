@@ -122,9 +122,10 @@ h1 {
 	/* font-style: italic; */
 }
 
-#animate {
+.animate {
 	border-color: grey;
-	background: darkgreen;
+	background: black;
+	color: white;
 }
 
 figure {
@@ -151,7 +152,7 @@ figcaption {
 }
 
 .favorite, .remove-favorite {
-	background: black;
+	background: royalblue;
 	color: white;
 	border-color: lightgray;
 }

@@ -206,10 +206,12 @@ $(document).ready(function () {
     }
 
     //animates/stops all the main gifs at once
-    $("#gifs-area #animate").on("click", function () {
+    $("#gifs-area .animate").on("click", function () {
         //animating all the gifs
         if (animateAll === false) {
-            $(this).attr("style", "background: black");
+            // $(this).attr("style", "background: yellow");
+            // $(this).attr("style","color: black");
+            $(this).text("Animation: ON");
             animateAll = true;
             $("#gifs .gif").each(function () {
                 if ($(this).attr("data-status") === "still") {
@@ -221,7 +223,9 @@ $(document).ready(function () {
         }
         //stopping all gif animations
         else {
-            $(this).attr("style", "background: green");
+            // $(this).attr("style", "background: yellow");
+            // $(this).attr("style", "color: white");
+            $(this).text("Animation: OFF");
             animateAll = false;
             $("#gifs .gif").each(function () {
                 $(this).attr("data-status", "still");
@@ -232,10 +236,12 @@ $(document).ready(function () {
     });
 
     //animates/stops all the favorite gifs at once
-    $("#favorites #animate").on("click", function () {
+    $("#favorites .animate").on("click", function () {
         //animating all the gifs
         if (animateAll === false) {
-            $(this).attr("style", "background: black");
+            // $(this).attr("style", "background: yellow");
+            // $(this).attr("style","color: black");
+            $(this).text("Animation: ON");
             animateAll = true;
             $("#fav-gifs .gif").each(function () {
                 if ($(this).attr("data-status") === "still") {
@@ -247,7 +253,9 @@ $(document).ready(function () {
         }
         //stopping all gif animations
         else {
-            $(this).attr("style", "background: green");
+            // $(this).attr("style", "background: yellow");
+            // $(this).attr("style", "color: white");
+            $(this).text("Animation: OFF");
             animateAll = false;
             $("#fav-gifs .gif").each(function () {
                 $(this).attr("data-status", "still");
