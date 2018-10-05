@@ -1,8 +1,6 @@
 html,body {
-	/* background: lightgreen; */
 	height: 100%;
 	background: #0a8525;
-	/* font-family: 'Acme', sans-serif; */
 }
 
 body {
@@ -19,23 +17,16 @@ body {
 }
 
 header {
-	/* display: inline-block; */
-	/* float: left; */
 	background: #cc0004;
 	text-align: center;
-	/* background: lightcoral; */
 	color: white;
 	padding: 1em;
-	/* border-color: white; */
 	border: thick ridge white;
 }
 
 h1 {
 	text-align: center;
 	font-family: 'Acme', sans-serif;
-	/* font-family: 'Signika Negative', sans-serif; */
-	/* font-family: 'Lobster', cursive; */
-	/* font-family: 'Varela Round', sans-serif; */
 }
 
 .present {
@@ -59,7 +50,6 @@ h1 {
 #instructions {
 	text-align: center;
 	color: white;
-	/* font-family: 'Signika Negative', sans-serif; */
 }
 
 #remove-instructions {
@@ -90,8 +80,6 @@ h1 {
 }
 
 #buttons {
-	/* background: white; */
-	/* width: 80%; */
 	margin: auto;
 }
 
@@ -112,14 +100,11 @@ h1 {
 	width: 80%;
 	margin: auto;
 	padding: 7px;
-	/* display: inline-flex-block; */
 	background: white;
 }
 
 #gifs-header {
 	 font-family: 'Acme', sans-serif;
-	
-	/* font-style: italic; */
 }
 
 .animate {
@@ -135,15 +120,12 @@ figure {
 }
 
 figcaption {
-	/* font-family: 'Acme', sans-serif;  */
-	/* font-weight: bold; */
 	font-style: italic;
 }
 
 .gif {
 	width: auto;
 	height: auto;
-	/* max-width: 250px; */
 }
 
 .fav-container, .remove-fav-container {
@@ -179,7 +161,6 @@ footer {
 }
 
 #footer-link {
-	/* color: lightgoldenrodyellow; */
 	color: white;
 }
 
