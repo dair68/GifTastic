@@ -121,6 +121,16 @@ $(document).ready(function () {
                     favorite.attr("data-rating", rating);
                     favorite.attr("data-favorite","unfavorited");
 
+                    //checking if gif already in favorites, and button should be yellow
+                    $("#fav-gifs figure").each(function() {
+                        url = $(this).attr("data-gif");
+                        if(url === favorite.attr("data-gif")) {
+                            //changing button color
+                            favorite.attr("data-favorite","favorited");
+                            favorite.attr("style", "background: goldenrod");
+                        }
+                    });
+
                     var favoriteContain = $("<div>");
                     favoriteContain.addClass("fav-container");
                     favoriteContain.append(favorite);
@@ -194,8 +204,8 @@ $(document).ready(function () {
         }
     }
 
-    //animates/stops animating all the gifs at once
-    $("#animate").on("click", function () {
+    //animates/stops all the main gifs at once
+    $("#gifs-area #animate").on("click", function () {
         //animating all the gifs
         if (animateAll === false) {
             $(this).attr("style", "background: black");
@@ -212,7 +222,33 @@ $(document).ready(function () {
         else {
             $(this).attr("style", "background: green");
             animateAll = false;
-            $(".gif").each(function () {
+            $("#gifs .gif").each(function () {
+                $(this).attr("data-status", "still");
+                var stillURL = $(this).attr("data-still");
+                $(this).attr("src", stillURL);
+            });
+        }
+    });
+
+    //animates/stops all the favorite gifs at once
+    $("#favorites #animate").on("click", function () {
+        //animating all the gifs
+        if (animateAll === false) {
+            $(this).attr("style", "background: black");
+            animateAll = true;
+            $("#fav-gifs .gif").each(function () {
+                if ($(this).attr("data-status") === "still") {
+                    $(this).attr("data-status", "animated");
+                    var animatedURL = $(this).attr("data-animated");
+                    $(this).attr("src", animatedURL);
+                }
+            });
+        }
+        //stopping all gif animations
+        else {
+            $(this).attr("style", "background: green");
+            animateAll = false;
+            $("#fav-gifs .gif").each(function () {
                 $(this).attr("data-status", "still");
                 var stillURL = $(this).attr("data-still");
                 $(this).attr("src", stillURL);
@@ -222,6 +258,9 @@ $(document).ready(function () {
 
     //lets user favorite a gif and add to favorites section
     $(document).on("click", ".favorite", addFavorite);
+
+    //removes gif from favorites section
+    $(document).on("click",".remove-favorite",addFavorite);
 
     function addFavorite() {
         console.log("favorite clicked");
@@ -249,27 +288,37 @@ $(document).ready(function () {
              var caption = $("<figcaption>");
              caption.text("rated " + rating);
 
-             var favorite = $("<button>");
-             favorite.text("Favorite");
-             favorite.addClass("favorite btn");
-             favorite.attr("data-gif",stillURL);
-             favorite.attr("data-favorite","unfavorited");
+             var remove = $("<button>");
+             remove.text("Remove");
+             remove.addClass("remove-favorite btn");
+             remove.attr("data-gif",stillURL);
+             remove.attr("data-favorite","favorited");
+            //  favorite.attr("data-favorite","unfavorited");
+            var removeContainer = $("<div>");
+            removeContainer.addClass("remove-fav-container");
+            removeContainer.append(remove);
 
              var container = $("<figure>");
              container.attr("data-gif",stillURL);
              container.append(caption);
              container.append(img);
              container.append("<br>");
+             container.append(removeContainer);
             //  container.append(favoriteContain);
              $("#fav-gifs").append(container);
         }
         //removing gif from favorites
         else {
             console.log("removing");
-
-            $(this).attr("data-favorite","unfavorited");
-            $(this).attr("style", "background: black");
             var stillURL = $(this).attr("data-gif");
+
+            //setting appropriate button from yellow to black
+            $(".favorite").each(function() {
+                if(stillURL === $(this).attr("data-gif")) {
+                    $(this).attr("data-favorite","unfavorited");
+                    $(this).attr("style", "background: black");
+                }
+            });
 
             //searching for appropriate gif to remove
             $("#fav-gifs figure").each(function() {
@@ -283,13 +332,6 @@ $(document).ready(function () {
             });
         }
     };
-
-    //
-    // $(".gif").on("click", function() {
-    //     if(favoriteMode) {
-    //         $(this).attr("style","border: thin solid gold");
-    //     }
-    // });
 
     makeButtons();
 });

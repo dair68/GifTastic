@@ -145,12 +145,12 @@ figcaption {
 	/* max-width: 250px; */
 }
 
-.fav-container {
+.fav-container, .remove-fav-container {
 	text-align: center;
 	margin-top: 6px;
 }
 
-.favorite {
+.favorite, .remove-favorite {
 	background: black;
 	color: white;
 	border-color: lightgray;
